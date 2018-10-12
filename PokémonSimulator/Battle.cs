@@ -1,11 +1,13 @@
-﻿namespace PokémonSimulator
+﻿using PokémonAPI;
+
+namespace PokémonSimulator
 {
     /// <summary>
     /// 
     /// </summary>
     public class Battle
     {
-        public Battle(IPokéAgent agent1, IPokéAgent agent2)
+        public Battle(Pokémon agentPokémon, Pokémon defenderPokémon)
         {
             
         }
