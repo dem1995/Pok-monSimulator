@@ -3,7 +3,9 @@ using System.Linq;
 
 namespace PokémonAPI
 {
-
+    /// <summary>
+    /// The skills used by the Pokémon in battle (https://bulbapedia.bulbagarden.net/wiki/Move).
+    /// </summary>
     public partial class Move
     {
         /// <summary>
@@ -43,10 +45,10 @@ namespace PokémonAPI
         /// </summary>
         /// <param name="user">The user.</param>
         /// <param name="defender">The defender.</param>
-        public void UseAction(Pokémon user, Pokémon defender)
+        public void Use(Pokémon user, Pokémon defender)
         {
             if (Category!=MoveCategory.Status)
-                defender.Damage += DamageCalculation(user, defender);
+                defender.Damage += CalculateDamage(user, defender);
             AdditionalEffects?.Invoke(user, defender);
         }
 
@@ -59,12 +61,12 @@ namespace PokémonAPI
         public Action<Pokémon, Pokémon> AdditionalEffects { get; } = null;
 
         /// <summary>
-        /// Calculates the damage, assuming this move behaves normally.
+        /// Calculates the raw damage, assuming this move has no additional effects.
         /// </summary>
         /// <param name="user">The Pokémon using this move.</param>
         /// <param name="defender">The Pokémon defending against this move.</param>
         /// <returns></returns>
-        public int DamageCalculation (Pokémon user, Pokémon defender)
+        public int CalculateDamage (Pokémon user, Pokémon defender)
         {
             //Attacker's Level
             int A = user.Level;

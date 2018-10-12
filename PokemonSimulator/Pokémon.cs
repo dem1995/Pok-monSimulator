@@ -53,7 +53,7 @@ namespace PokémonAPI
         /// The assortment of moves this Pokémon has
         /// </value>
         public List<Move> Moves { get; set; }
-
+       
         /// <summary>
         /// Gets or sets how much damage this Pokémon has received. Caps at the max HP value.
         /// </summary>
@@ -89,5 +89,36 @@ namespace PokémonAPI
         ///   <c>true</c> if this instance is fainted; otherwise, <c>false</c>.
         /// </value>
         public bool IsFainted => RemainingHealth == 0;
+    }
+
+    /// <summary>
+    /// Additional methods for the Pokémon
+    /// </summary>
+    public static class PokémonExtensions
+    {
+        /// <summary>
+        /// Uses the specified move, as invoked by the <paramref name="user"/> on the <paramref name="defender"/>
+        /// </summary>
+        /// <param name="user">The user of the <paramref name="move"/>.</param>
+        /// <param name="move">The move being used.</param>
+        /// <param name="defender">The defender whom the <paramref name="move"/> is being used upon.</param>
+        /// <returns>The amount of damage done by the move.</returns>
+        public static int Use(this Pokémon user, Move move, Pokémon defender)
+        {
+            int initialHP = defender.RemainingHealth;
+            move.Use(user, defender);
+            int laterHP = defender.RemainingHealth;
+            return initialHP - laterHP;
+        }
+
+        /// <summary>
+        /// Uses the specified move, as invoked by the <paramref name="user"/> on the <paramref name="defender"/>
+        /// </summary>
+        /// <param name="user">The user of the move.</param>
+        /// <param name="moveIndex">The index corresponding to which of the <paramref name="user"/>'s moves to use.</param>
+        /// <param name="defender">The defender whom the move is being used upon.</param>
+        /// <returns>The amount of damage done by the move.</returns>
+        public static int Use(this Pokémon user, int moveIndex, Pokémon defender) =>
+            Use(user, user.Moves[moveIndex], defender);
     }
 }

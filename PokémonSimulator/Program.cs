@@ -12,11 +12,22 @@ namespace PokémonSimulator
     {
         static void Main(string[] args)
         {
-            Pokémon p0 = RentalPokémon.RentalPor23;
-            Pokémon p1 = RentalPokémon.RentalPorygon;
-            Pokémon p2 = RentalPokémon.RentalVenusaur;
-            Console.Write(Move.Thunderbolt.DamageCalculation(p1, p2));
-            
+            //A pre-made Porygon
+            Pokémon pokemon1 = RentalPokémon.RentalPorygon;
+
+            //A pre-made Venusaur
+            Pokémon pokemon2 = RentalPokémon.RentalVenusaur;
+
+            //An example of Porygon attacking Venusaur
+            int damageDealt = pokemon1.Use(1, pokemon2);
+
+            //Checking remaining health
+            int p1Remaining = pokemon1.RemainingHealth;
+            int p2Remaining = pokemon2.RemainingHealth;
+
+            //Testing to see if Pokémon has fainted
+            bool hasFainted = pokemon2.IsFainted;
+
         }
     }
 }

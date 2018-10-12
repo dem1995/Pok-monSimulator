@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PokémonAPI
 {
+    /// <summary>
+    /// Miscellaneous methods to make classes more readable
+    /// </summary>
     public static class HelperMethods
     {
         /// <summary>
@@ -24,7 +30,7 @@ namespace PokémonAPI
         /// <typeparam name="T">The type of the attribute you want to retrieve</typeparam>
         /// <param name="enumVal">The enum value</param>
         /// <returns>The attribute of type T that exists on the enum value</returns>
-        public static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
+        internal static T GetAttributeOfType<T>(this Enum enumVal) where T : System.Attribute
         {
             var type = enumVal.GetType();
             var memInfo = type.GetMember(enumVal.ToString());
