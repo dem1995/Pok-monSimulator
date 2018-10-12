@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PokemonSimulator\PokémonAPI.csproj" />
+    <ProjectReference Include="..\PokémonAPI\PokémonAPI.csproj" />
   </ItemGroup>
 
 </Project>
