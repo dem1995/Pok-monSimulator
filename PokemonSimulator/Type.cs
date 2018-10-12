@@ -128,7 +128,7 @@ namespace PokémonAPI
     /// </summary>
     /// <seealso cref="T:System.Attribute" />
     [AttributeUsage(AttributeTargets.Field)]
-    public class AttackingMultiplierAttribute : Attribute
+    internal class AttackingMultiplierAttribute : Attribute
     {
 
         private readonly Dictionary<Type, double> _attackMultipliers;

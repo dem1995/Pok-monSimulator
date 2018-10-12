@@ -50,8 +50,20 @@ namespace PokémonAPI
             AdditionalEffects?.Invoke(user, defender);
         }
 
+        /// <summary>
+        /// Gets the additional effects the move may have.
+        /// </summary>
+        /// <value>
+        /// The additional effects the move may have (i.e. pretty much anything that isn't straightforward pure damage move effects)
+        /// </value>
         public Action<Pokémon, Pokémon> AdditionalEffects { get; } = null;
 
+        /// <summary>
+        /// Calculates the damage, assuming this move behaves normally.
+        /// </summary>
+        /// <param name="user">The Pokémon using this move.</param>
+        /// <param name="defender">The Pokémon defending against this move.</param>
+        /// <returns></returns>
         public int DamageCalculation (Pokémon user, Pokémon defender)
         {
             //Attacker's Level
@@ -107,6 +119,11 @@ namespace PokémonAPI
         }
     }
 
+    /// <summary>
+    /// The category of the move (https://bulbapedia.bulbagarden.net/wiki/Damage_category).
+    /// This determines which stat is used for attack/defense (i.e., Attack/Special or Defense/Special),
+    /// as well as whether the move does damage at all (i.e., Status moves do not).
+    /// </summary>
     public enum MoveCategory
     {
         Physical,

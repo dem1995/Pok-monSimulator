@@ -16,6 +16,7 @@ namespace PokémonSimulator
             Pokémon p1 = RentalPokémon.RentalPorygon;
             Pokémon p2 = RentalPokémon.RentalVenusaur;
             Console.Write(Move.Thunderbolt.DamageCalculation(p1, p2));
+            
         }
     }
 }

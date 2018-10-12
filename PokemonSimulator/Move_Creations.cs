@@ -18,9 +18,6 @@ namespace PokémonAPI
             AllMoves.Add(this);
         }
 
-
-
-
         public static Move IceBeam { get; } = new Move("Ice Beam", Type.Ice, MoveCategory.Special, 95, null);
 
         public static Move Thunderbolt { get; } =
@@ -36,7 +33,6 @@ namespace PokémonAPI
         public static Move SolarBeam { get; } = new Move("SolarBeam", Type.Grass, MoveCategory.Special, 120, null);
 
         public static Move HydroPump { get; } = new Move("Hydro Pump", Type.Water, MoveCategory.Special, 120, null);
-
 
         public List<Move> AllMoves { get; } = new List<Move>();
     }
