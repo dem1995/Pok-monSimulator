@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Reflection;
 
-namespace PokémonSimulator
+namespace PokémonAPI
 {
-    public static class EnumHelper
+    public static class HelperMethods
     {
+        /// <summary>
+        /// Generates a <see cref="List{T}"/> of objects from the provided entries.
+        /// </summary>
+        /// <typeparam name="T">The type of the generated list's entries.</typeparam>
+        /// <param name="entries">The entries for the list.</param>
+        /// <returns>A <see cref="List{T}"/> created from the provided entries.</returns>
+        public static List<T> Listify<T>(params T[] entries)
+        {
+            return entries.ToList();
+        }
+
         /// <summary>
         /// Gets an attribute on an enum field value
         /// </summary>
@@ -20,4 +32,6 @@ namespace PokémonSimulator
             return (attributes.Length > 0) ? (T)attributes[0] : null;
         }
     }
+
+
 }

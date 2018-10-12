@@ -4,11 +4,7 @@ using System.Text;
 
 namespace PokémonSimulator
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Battle
+    class IntelligentPokéAgent
     {
-
     }
 }

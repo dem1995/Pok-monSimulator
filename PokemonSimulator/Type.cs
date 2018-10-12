@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
-namespace PokémonSimulator
+namespace PokémonAPI
 {
     /// <summary>
     /// Enumeration of Pokémon/Move types
@@ -155,4 +154,5 @@ namespace PokémonSimulator
             return _attackMultipliers;
         }
     }
+
 }

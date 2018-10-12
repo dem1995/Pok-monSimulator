@@ -1,21 +1,56 @@
 ﻿using System;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Net.Security;
-using System.Reflection.Metadata;
 
-namespace PokémonSimulator
+namespace PokémonAPI
 {
-    public class Move
+
+    public partial class Move
     {
-        public int AttackPower;
+        /// <summary>
+        /// Gets the name of the move.
+        /// </summary>
+        /// <value>
+        /// The name of the move.
+        /// </value>
+        public string Name { get; }
 
-        public Type AttackType;
+        /// <summary>
+        /// Gets the type of the move.
+        /// </summary>
+        /// <value>
+        /// The type of the move.
+        /// </value>
+        public Type AttackType { get; }
 
-        public MoveCategory Category;
+        /// <summary>
+        /// Gets the category of the move (Physical, Special, Status)
+        /// </summary>
+        /// <value>
+        /// The category of the move (Physical, Special, Status)
+        /// </value>
+        public MoveCategory Category { get; }
 
+        /// <summary>
+        /// Gets the power of the move.
+        /// </summary>
+        /// <value>
+        /// The power of the move
+        /// </value>
+        public int AttackPower { get; }
 
-        public Action<Pokémon, Pokémon> PrimaryAction = (Pokémon user, Pokémon defender) => { };
+        /// <summary>
+        /// The primary effect of the move.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="defender">The defender.</param>
+        public void UseAction(Pokémon user, Pokémon defender)
+        {
+            if (Category!=MoveCategory.Status)
+                defender.Damage += DamageCalculation(user, defender);
+            AdditionalEffects?.Invoke(user, defender);
+        }
+
+        public Action<Pokémon, Pokémon> AdditionalEffects { get; } = null;
 
         public int DamageCalculation (Pokémon user, Pokémon defender)
         {
@@ -27,8 +62,11 @@ namespace PokémonSimulator
             int C = AttackPower;
             //Defender's Defense or Special stat
             int D;
-            //STAB modifier (1.5 if this attack's type is one of the user's types; 0, otherwise).
+            //STAB modifier (1.5 if this attack's type is one of the user's types; 1, otherwise).
             double X = user.Types.Contains(AttackType)?1.5:1;
+
+            var temp = AttackType.AttackMultipliers();
+            var temp2 = temp[Type.Grass];
             //Type effectiveness modifier. Product of the type effectiveness modifiers of this move's type against each of the defender's types.
             double Y = defender.Types.Aggregate
             (
@@ -67,8 +105,6 @@ namespace PokémonSimulator
 
             return (int) damage;
         }
-
-        public Func<Pokémon, Pokémon> AdditionalEffects;
     }
 
     public enum MoveCategory

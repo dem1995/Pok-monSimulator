@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PokémonSimulator
+﻿namespace PokémonAPI
 {
+    /// <summary>
+    /// Enumeration of battle stat values.
+    /// </summary>
     public enum Stat
     {
         HP,
@@ -13,4 +12,3 @@ namespace PokémonSimulator
         Speed
     }
 }
-s
