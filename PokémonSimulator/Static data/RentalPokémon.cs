@@ -4,6 +4,7 @@ using static PokémonAPI.HelperMethods;
 
 namespace PokémonSimulator
 {
+    /// <inheritdoc />
     /// <summary>
     /// A class for holding pre-generated Pokémon.
     /// </summary>
