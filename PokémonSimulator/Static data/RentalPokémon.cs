@@ -12,12 +12,10 @@ namespace PokémonSimulator
 
         public List<RentalPokémon> AvailablePokémon { get; }= new List<RentalPokémon>();
 
-        public static RentalPokémon RentalPor23 { get; } = new RentalPokémon(null, new List<Move>());
-
         public static RentalPokémon RentalPorygon { get; } = new RentalPokémon(Species.Porygon, Listify(Move.IceBeam, Move.Thunderbolt, Move.Swift, Move.Tackle));
-        public static RentalPokémon RentalCharizard { get; } = new RentalPokémon(Species.Charizard, Listify(Move.Flamethrower));
-        public static RentalPokémon RentalBlastoise { get; } = new RentalPokémon(Species.Blastoise, Listify(Move.HydroPump));
-        public static RentalPokémon RentalVenusaur { get; } = new RentalPokémon(Species.Venusaur, Listify(Move.SolarBeam));
+        public static RentalPokémon RentalCharizard { get; } = new RentalPokémon(Species.Charizard, Listify(Move.Flamethrower, Move.Earthquake, Move.Strength, Move.Tackle));
+        public static RentalPokémon RentalBlastoise { get; } = new RentalPokémon(Species.Blastoise, Listify(Move.HydroPump, Move.Earthquake, Move.Strength, Move.Tackle));
+        public static RentalPokémon RentalVenusaur { get; } = new RentalPokémon(Species.Venusaur, Listify(Move.SolarBeam, Move.Cut, Move.BodySlam, Move.Tackle));
 
 
         private RentalPokémon(Species species, IEnumerable<Move> moves) : base(species, moves)
