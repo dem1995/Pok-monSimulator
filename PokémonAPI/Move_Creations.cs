@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PokémonAPI
 {
@@ -33,6 +34,14 @@ namespace PokémonAPI
         public static Move SolarBeam { get; } = new Move("SolarBeam", Type.Grass, MoveCategory.Special, 120, null);
 
         public static Move HydroPump { get; } = new Move("Hydro Pump", Type.Water, MoveCategory.Special, 120, null);
+
+        /// <summary>
+        /// Changes the user's types to match the opponent's
+        /// </summary>
+        public static Move Conversion { get; } = new Move("Conversion", Type.Normal, MoveCategory.Status, 0,
+            (Pokémon attacker, Pokémon defender) => { attacker.Types.Clear(); attacker.Types.AddRange(defender.Types);}
+            );
+
 
         public List<Move> AllMoves { get; } = new List<Move>();
     }
