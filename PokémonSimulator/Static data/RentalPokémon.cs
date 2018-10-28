@@ -17,7 +17,7 @@ namespace PokémonSimulator
         public static RentalPokémon RentalCharizard { get; } = new RentalPokémon(Species.Charizard, Listify(Move.Flamethrower, Move.Earthquake, Move.Strength, Move.Tackle));
         public static RentalPokémon RentalBlastoise { get; } = new RentalPokémon(Species.Blastoise, Listify(Move.HydroPump, Move.Earthquake, Move.Strength, Move.Tackle));
         public static RentalPokémon RentalVenusaur { get; } = new RentalPokémon(Species.Venusaur, Listify(Move.SolarBeam, Move.Cut, Move.BodySlam, Move.Tackle));
-
+        public static RentalPokémon RentalGengar { get; } = new RentalPokémon(Species.Gengar, Listify(Move.Psychic, Move.Thunderbolt, Move.BodySlam, Move.Strength));
 
         private RentalPokémon(Species species, IEnumerable<Move> moves) : base(species, moves)
         {

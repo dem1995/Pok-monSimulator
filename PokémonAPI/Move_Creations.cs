@@ -36,6 +36,12 @@ namespace PokémonAPI
         public static Move Flamethrower { get; } =
             new Move("Flamethrower", Type.Fire, MoveCategory.Special, 95, null);
 
+        /// <summary>
+        /// A relatively powerful, damage-dealing psychic-type move.
+        /// </summary>
+        public static Move Psychic { get; } =
+            new Move("Psychic", Type.Psychic, MoveCategory.Special, 90, null);
+
         public static Move Tackle { get; } = new Move("Tackle", Type.Normal, MoveCategory.Physical, 35, null);
 
         public static Move Swift { get; } = new Move("Swift", Type.Normal, MoveCategory.Physical, 60, null);
