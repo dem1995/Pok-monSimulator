@@ -89,7 +89,36 @@ namespace PokémonAPI
         ///   <c>true</c> if this instance is fainted; otherwise, <c>false</c>.
         /// </value>
         public bool IsFainted => RemainingHealth == 0;
+
+        /// <summary>
+        /// The exclusive status condition (or lack thereof) afflicting this Pokémon.
+        /// </summary>
+        /// <value>
+        /// The status condition (or lack thereof) this Pokémon is afflicted with.
+        /// </value>
+        public StatusCondition Status { get; set; }
     }
+
+    public enum StatusCondition
+    {
+        None,
+        Burned,
+        Paralyzed,
+        Frozen,
+        Poisoned,
+        BadlyPoisoned,
+        Sleep
+    }
+
+    [Flags]
+    public enum VolatileConditions
+    {
+        None = 0,
+        Bound = 1,
+        Confusion = 2,
+        Leeched = 4
+    }
+
 
     /// <summary>
     /// Additional methods for the Pokémon

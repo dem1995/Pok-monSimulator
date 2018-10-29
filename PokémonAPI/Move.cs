@@ -119,6 +119,22 @@ namespace PokémonAPI
 
             return (int) damage;
         }
+
+        /// <summary>
+        /// Generates the additional move effect expected from a move that can conditionally cause a non-volatile status
+        /// </summary>
+        /// <param name="probability">The probability the move will cause the given non-volatile status.</param>
+        /// <returns></returns>
+        public static Action<Pokémon, Pokémon> StatusCauserAction(StatusCondition condition, decimal probability, Type? immuneType = null)
+        {
+            return (Pokémon attacker, Pokémon defender) =>
+            {
+                if (defender.Status == StatusCondition.None)
+                    if (immuneType==null || !defender.Types.Contains((Type) immuneType))
+                        if (new Random().NextDouble() < (double) probability)
+                            defender.Status = condition;
+            };
+        }
     }
 
     /// <summary>

@@ -22,19 +22,20 @@ namespace PokémonAPI
         /// <summary>
         /// A relatively powerful, damage-dealing ice-type move. Would normally have a chance of freezing the opponent, but for simplification's sake it does not at the moment.
         /// </summary>
-        public static Move IceBeam { get; } = new Move("Ice Beam", Type.Ice, MoveCategory.Special, 95, null);
+        public static Move IceBeam { get; } = 
+            new Move("Ice Beam", Type.Ice, MoveCategory.Special, 95, StatusCauserAction(StatusCondition.Frozen, (decimal)0.1, Type.Ice));
 
         /// <summary>
         /// A relatively powerful, damage-dealing electric-type move. Would normally have a chance of paralyzing the opponent, but for simplification's sake it does not at the moment.
         /// </summary>
         public static Move Thunderbolt { get; } =
-            new Move("Thunderbolt", Type.Electric, MoveCategory.Special, 95, null);
+            new Move("Thunderbolt", Type.Electric, MoveCategory.Special, 95, StatusCauserAction(StatusCondition.Paralyzed, (decimal)0.1, Type.Electric));
 
         /// <summary>
         /// A relatively powerful, damage-dealing fire-type move. Would normally have a chance of burning the opponent, but for simplification's sake it does not at the moment.
         /// </summary>
         public static Move Flamethrower { get; } =
-            new Move("Flamethrower", Type.Fire, MoveCategory.Special, 95, null);
+            new Move("Flamethrower", Type.Fire, MoveCategory.Special, 95, StatusCauserAction(StatusCondition.Burned, (decimal) 0.1, Type.Fire));
 
         /// <summary>
         /// A relatively powerful, damage-dealing psychic-type move.
@@ -53,7 +54,7 @@ namespace PokémonAPI
         /// <summary>
         /// A relatively powerful, damage-dealing normal-type move. Would normally have a chance of paralyzing the opponent, but for simplification's sake it does not do so at the moment.
         /// </summary>
-        public static Move BodySlam { get; } = new Move("Body Slam", Type.Normal, MoveCategory.Physical, 85, null);
+        public static Move BodySlam { get; } = new Move("Body Slam", Type.Normal, MoveCategory.Physical, 85, StatusCauserAction(StatusCondition.Paralyzed, (decimal)0.1, null));
 
         /// <summary>
         /// A powerful, damage-dealing ground-type move.
