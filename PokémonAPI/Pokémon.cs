@@ -63,7 +63,7 @@ namespace PokémonAPI
         public int Damage
         {
             get => _damage;
-            set => _damage = Math.Min(0, value);
+            set => _damage = Math.Min(Stats[Stat.HP], value);
         }
 
         /// <summary>

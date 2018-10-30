@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MantineLearning\MantineLearning.csproj" />
     <ProjectReference Include="..\PokémonAPI\PokémonAPI.csproj" />
   </ItemGroup>
 
