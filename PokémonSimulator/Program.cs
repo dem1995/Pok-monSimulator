@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -12,7 +13,7 @@ namespace PokémonSimulator
 {
     class Program
     {
-        private static int NumberOfBattles { get; } = 200;
+        private static int NumberOfBattles { get; } = 1000;
         private static double ExplorationRate { get; set; } = 0.5;
         private static double LearningRate { get; set; }= 0.5;
 
@@ -30,11 +31,19 @@ namespace PokémonSimulator
 
             //Prepare the state mapping
             Func<Pokémon, Pokémon, int> getState = (Pokémon pokémon1, Pokémon pokémon2) =>
-                15 * (int) pokémon2.Types[0] +
-                1 * (((int?) pokémon2.Types?[1]) ?? (int) pokémon2.Types[0]);
+            {
+
+                return 15 * (int) pokémon2.Types[0] +
+                    1 * (int) (pokémon2.Types.Count > 1 ? pokémon2.Types[1] : pokémon2.Types[0]);
+            };
 
 
             #endregion SARSA Setup
+
+            using (StreamWriter sw = new StreamWriter("PineappleExpress.txt"))
+            {
+                sw.Write("");
+            }
 
             /**Region for setting up the battle itself**/
             #region Battle Execution
@@ -50,7 +59,7 @@ namespace PokémonSimulator
 
                 //Prepare the Pokémon
                 Pokémon pokemon1 = RentalPokémon.RentalGengar; //A pre-made Porygon
-                Pokémon pokemon2 = RentalPokémon.RentalVenusaur;//A pre-made Venusaur
+                Pokémon pokemon2 = RentalPokémon.RandomRental();    //A pre-made opponent
 
                 int previousState=-1;
                 int previousAction=-1;
@@ -58,17 +67,22 @@ namespace PokémonSimulator
                 int nextAction=-1;
                 double reward = 0.0;
                 bool firstTurn = true;
-                    
+
+                double percentFinished = 0;
+
                 //Battle loop
                 while (!(pokemon1.IsFainted || pokemon2.IsFainted))
                 {
+
                     //Shift states
                     currentState = getState(pokemon1, pokemon2);
                     nextAction = sarsa.GetAction(currentState);
 
                     //update SARSA
                     if (!firstTurn)
+                    {
                         sarsa.UpdateState(previousState, previousAction, reward, currentState, nextAction);
+                    }
                     else
                         firstTurn = false;
 
@@ -90,7 +104,7 @@ namespace PokémonSimulator
                                 reward, pokemon1.Species.Name, pokemon1.RemainingHealth);
                         }
                         else
-                            reward += 10000;
+                            reward += 1000;
                     }
                     else
                     {
@@ -111,6 +125,7 @@ namespace PokémonSimulator
 
                     previousState = currentState;
                     previousAction = nextAction;
+                    percentFinished = ((double)pokemon2.Stats[Stat.HP]-pokemon2.RemainingHealth)/((double)pokemon2.Stats[Stat.HP]);
                 }
 
                 sarsa.UpdateState(previousState,previousAction,reward,currentState,nextAction);
@@ -119,6 +134,14 @@ namespace PokémonSimulator
                     Console.WriteLine("{0} (Pokémon 1) Fainted", pokemon1.Species.Name);
                 else
                     Console.WriteLine("{0} (Pokémon 2) Fainted", pokemon2.Species.Name);
+
+                //Print score for graphing
+                using (StreamWriter sw = new StreamWriter("PineappleExpress.txt", true))
+                {
+
+                     sw.WriteLine("{0}, {1}", battleNumber, percentFinished);
+
+                }
             }
 
             #endregion Battle Execution

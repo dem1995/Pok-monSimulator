@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PokémonAPI;
 using static PokémonAPI.HelperMethods;
 
@@ -22,6 +23,25 @@ namespace PokémonSimulator
         private RentalPokémon(Species species, IEnumerable<Move> moves) : base(species, moves)
         {
             AvailablePokémon.Add(this);
+        }
+
+        public static RentalPokémon RandomRental()
+        {
+            switch (new Random().Next(5))
+            {
+                case 0:
+                    return RentalPorygon;
+                case 1:
+                    return RentalCharizard;
+                case 2:
+                    return RentalBlastoise;
+                case 3:
+                    return RentalVenusaur;
+                case 4:
+                    return RentalGengar;
+                default:
+                    return RentalVenusaur;
+            }
         }
     }
 }
