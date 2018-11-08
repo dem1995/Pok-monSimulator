@@ -1,133 +1,78 @@
-﻿// Accord Machine Learning Library
-// The Accord.NET Framework
-// http://accord-framework.net
-//
-// AForge Machine Learning Library
-// AForge.NET framework
-//
-// Copyright © Andrew Kirillov, 2007-2008
-// andrew.kirillov@gmail.com
-//
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
+﻿using System;
+using System.Collections.Generic;
 
 namespace MantineLearning
 {
-    using System;
 
     /// <summary>
-    /// Epsilon greedy exploration policy.
+    /// An epsilon-greedy exploration policy. The exploration rate, <see cref="ExplorationRate"/> defines the chance that a
+    /// random choice will be taken (for the sake of exploration)
     /// </summary>
-    /// 
-    /// <remarks><para>The class implements epsilon greedy exploration policy. According to the policy,
-    /// the best action is chosen with probability <b>1-epsilon</b>. Otherwise,
-    /// with probability <b>epsilon</b>, any other action, except the best one, is
-    /// chosen randomly.</para>
-    /// 
-    /// <para>According to the policy, the epsilon value is known also as exploration rate.</para>
-    /// </remarks>
-    /// 
-    /// <seealso cref="RouletteWheelExploration"/>
-    /// <seealso cref="BoltzmannExploration"/>
-    /// <seealso cref="TabuSearchExploration"/>
-    /// 
+    /// <seealso cref="MantineLearning.IExplorationPolicy" />
     public class EpsilonGreedyExploration : IExplorationPolicy
     {
-        // exploration rate
-        private double epsilon;
-
-        // random number generator
-        private Random rand = new Random();
+        /// <summary>
+        /// A random number generator for this instance of the <see cref="EpsilonGreedyExploration"/> class.
+        /// </summary>
+        private readonly Random _randy = new Random();
 
         /// <summary>
-        /// Epsilon value (exploration rate), [0, 1].
+        /// Retrieves the exploration rate; that is, the chance of a random action being taken.
         /// </summary>
-        /// 
-        /// <remarks><para>The value determines the amount of exploration driven by the policy.
-        /// If the value is high, then the policy drives more to exploration - choosing random
-        /// action, which excludes the best one. If the value is low, then the policy is more
-        /// greedy - choosing the beat so far action.
-        /// </para></remarks>
-        /// 
-        public double Epsilon
-        {
-            get { return epsilon; }
-            set
-            {
-                if (value < 0 || value > 1.0)
-                    throw new ArgumentOutOfRangeException("Epsilon should be between 0 and 1.");
-                epsilon = value;
-            }
-        }
+        /// <value>
+        /// The exploration rate; that is, the chance of a random action being taken.
+        /// </value>
+        public double ExplorationRate { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EpsilonGreedyExploration"/> class.
         /// </summary>
-        /// 
-        /// <param name="epsilon">Epsilon value (exploration rate).</param>
-        /// 
-        public EpsilonGreedyExploration(double epsilon)
+        /// <param name="explorationRate">The exploration rate.</param>
+        public EpsilonGreedyExploration(double explorationRate)
         {
-            Epsilon = epsilon;
+            ExplorationRate=explorationRate;
         }
 
         /// <summary>
-        /// Choose an action.
+        /// Chooses the next action under an epsilon-greedy policy from amongst the available actions (or any actions if availableActions is null)
         /// </summary>
-        /// 
-        /// <param name="actionEstimates">Action estimates.</param>
-        /// 
-        /// <returns>Returns selected action.</returns>
-        /// 
-        /// <remarks>The method chooses an action depending on the provided estimates. The
-        /// estimates can be any sort of estimate, which values usefulness of the action
-        /// (expected summary reward, discounted reward, etc).</remarks>
-        /// 
-        public int ChooseAction(double[] actionEstimates)
+        /// <param name="actionRewards">The expected reward for picking a given action.</param>
+        /// <param name="availableActions">The available action to choose from.</param>
+        /// <returns></returns>
+        public int ChooseAction(double[] actionRewards, List<int> availableActions = null)
         {
-            // actions count
-            int actionsCount = actionEstimates.Length;
 
-            // find the best action (greedy)
-            double maxReward = actionEstimates[0];
+            double maxReward = -1;
             int greedyAction = 0;
 
-            for (int i = 1; i < actionsCount; i++)
+            for (int i = 0; i < actionRewards.Length; i++)
             {
-                if (actionEstimates[i] > maxReward)
+                if (availableActions?.Contains(i)??true && actionRewards[i] > maxReward)
                 {
-                    maxReward = actionEstimates[i];
+                    maxReward = actionRewards[i];
                     greedyAction = i;
                 }
             }
 
-            // try to do exploration
-            if (rand.NextDouble() < epsilon)
+            //If we're set to explore, pick a random action from amongst the available ones
+            if (_randy.NextDouble() < ExplorationRate)
             {
-                int randomAction = rand.Next(actionsCount - 1);
-
-                if (randomAction >= greedyAction)
-                    randomAction++;
-
-                return randomAction;
+                return ChooseRandomFrom(availableActions, _randy);
             }
 
             return greedyAction;
         }
+
+        /// <summary>
+        /// Chooses a random integer from amongst the list of choices.
+        /// </summary>
+        /// <param name="choices">The choices.</param>
+        /// <param name="rand">The random number generator to use.</param>
+        /// <returns>A random choice from the list of integers.</returns>
+        public static int ChooseRandomFrom(List<int> choices, Random rand)
+        {
+            return choices[rand.Next(choices.Count)];
+        }
     }
 }
+

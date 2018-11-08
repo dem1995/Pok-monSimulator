@@ -149,5 +149,15 @@ namespace PokémonAPI
         /// <returns>The amount of damage done by the move.</returns>
         public static int Use(this Pokémon user, int moveIndex, Pokémon defender) =>
             Use(user, user.Moves[moveIndex], defender);
+
+        public static int UseMoveOfType(this Pokémon user, Type t, Pokémon defender)
+        {
+            List<Move> availableMoves = user.Moves.Where(move => move.AttackType == t).ToList();
+            if (availableMoves.Count < 1)
+                throw new Exception(
+                    $"Pokémon {user.Species.Name} asked to use a move of a type {Enum.GetName(typeof(Type), t)}, of which it does not have any.");
+            Move moveChoice = availableMoves[new Random().Next(availableMoves.Count)];
+            return Use(user, moveChoice, defender);
+        }
     }
 }

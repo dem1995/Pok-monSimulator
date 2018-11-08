@@ -72,10 +72,11 @@ namespace PokémonAPI
         Dragon
     }
 
+
     /// <summary>
     /// Adding methods to the <see cref="Type"/> (equipped with the <see cref="AttackMultipliers"/> attribute) enumeration for retrieving type effectiveness
     /// </summary>
-    internal static class TypeExtensions
+    public static class TypeExtensions
     {
         private static Dictionary<Type, Dictionary<Type, double>> _attackMultipliers
         = new Dictionary<Type, Dictionary<Type, double>>();
@@ -91,6 +92,16 @@ namespace PokémonAPI
             }
 
             return _attackMultipliers[attackingType].ToImmutableDictionary();
+        }
+
+        public static double MultiplierOn(this Type t, params Type[] oppTypes)
+        {
+            return oppTypes.Aggregate
+            (
+                seed: 1.0,
+                func: (result, item) => result * t.AttackMultipliers()[item],
+                resultSelector: result => result
+            );
         }
 
         //public static ImmutableDictionary<Type, double> DefenseMultipliers(this Type defendingType)
